@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import cn from "../../utils/cn";
+import Heading from "../heading/heading";
 
 @cn('favourite')
 class Favourite extends Component {
     render(cn) {
         return (
-            <div className={ cn() }>Favourite
+            <div>
+                <Heading headingValue='Favourite films' />
+                <div className={ cn() }>Favourite
+                </div>
             </div>
         );
     }

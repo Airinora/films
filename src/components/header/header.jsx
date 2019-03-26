@@ -13,8 +13,9 @@ class Header extends Component {
     render(cn) {
         return (
             <div className={ cn() }>
-                <Navbar bg='dark' variant='dark' className={ cn('nav') }>
-                    <Container>
+                <Navbar bg='dark' variant='dark'>
+                    <Container className={ cn('nav') }>
+                        <div className={ cn('label') }>Amazing Films</div>
                         <Nav className='mr-auto'>
                             <Nav.Link>
                                 <NavLink to={ MAIN_PAGE_ROUTE } className={ cn('nav-link') }>

@@ -9,6 +9,7 @@ import Header from '../header/header';
 import Favourite from "../favourite/favourite";
 import Watched from "../watched/watched";
 import './app.pcss';
+import '../../assets/styles/styles.pcss';
 
 export default class App extends React.Component {
     render() {
