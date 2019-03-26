@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-/* eslint-disable-next-line import/no-extraneous-dependencies */
-import { AppContainer } from 'react-hot-loader'
+/*
+eslint import/no-extraneous-dependencies: 0
+ */
+import { AppContainer } from 'react-hot-loader';
+import 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './components/app/app';
 import { configureStore } from './store/store';
