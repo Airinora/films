@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch, HashRouter } from 'react-router-dom';
-
 import Container from "react-bootstrap/Container";
 import PageMain from '../page-main/page-main';
 import PageError from '../page-error/page-error';

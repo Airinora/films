@@ -1,0 +1,30 @@
+
+.pagination {
+    &__item {
+        width: 30px;
+        height: 30px;
+        border: 1px solid darkblue;
+        text-align: center;
+
+        &.active {
+            background-color: darkblue;
+        }
+
+        &.disabled {
+            background-color: lightgrey;
+            border: 1px solid grey;
+        }
+    }
+
+    &__link {
+        margin: auto;
+
+        &--active {
+            color: var(--color-white);
+
+            &:hover {
+                color: var(--color-white);
+            }
+        }
+    }
+}
