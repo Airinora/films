@@ -5,17 +5,24 @@ import PaginationBasic from "../pagination/pagination";
 
 @cn('favourite')
 class Favourite extends Component {
+    state = {
+        activePage: 1
+    };
+
+    handlePageChange = (page) => {
+        this.setState({activePage: page});
+    };
+
     render(cn) {
+        const {activePage} = this.state;
         return (
             <div>
                 <Heading headingValue='Favourite films' />
-                <div className={ cn() }>
-                    Favourite
-                </div>
+                <div className={ cn() } />
                 <PaginationBasic
-                    maxNumber={ 10 }
+                    total={ 5 }
                     onChange={ this.handlePageChange }
-                    active={ 1 }
+                    activePage={ activePage }
                 />
             </div>
         );
