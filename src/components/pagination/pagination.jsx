@@ -154,13 +154,13 @@ class PaginationBasic extends Component {
                         disabled={ prevDisabled }
                     />
                     {
-                        items.map((item) => {
+                        items.map((item, i) => {
                             let {number, isEllipsis} = item;
                             if (isEllipsis === true) {
                                 return (
                                     <Pagination.Ellipsis
                                         disabled={ true }
-                                        key={ (number + 'key') }
+                                        key={ (i + 'key') }
                                     />
                                 );
                             } return (
