@@ -20,7 +20,7 @@ class Watched extends Component {
                 <Heading headingValue='Watched films' />
                 <div className={ cn() } />
                 <PaginationBasic
-                    total={ 10 }
+                    total={ 30 }
                     onChange={ this.handlePageChange }
                     activePage={ activePage }
                 />

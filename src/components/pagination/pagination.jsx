@@ -3,15 +3,97 @@ import React, {Component} from "react";
 import Pagination from "react-bootstrap/Pagination";
 /* eslint-disable-next-line import/no-extraneous-dependencies */
 import PropTypes from "prop-types";
+import cn from '../../utils/cn';
 
-function setItems(maxNumber) {
+function setItems(maxNumber, activePage) {
     let items = [];
-    for (let pageNumber = 1; pageNumber <= maxNumber; pageNumber++) {
-        items.push(pageNumber);
+    if (maxNumber <= 5) {
+        for (let pageNumber = 1; pageNumber <= maxNumber; pageNumber++) {
+            items.push({number: pageNumber, isEllipsis: false});
+        }
+    } else if ((activePage + 3) < maxNumber && activePage > 4) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (activePage - 1), isEllipsis: false},
+            {number: activePage, isEllipsis: false},
+            {number: (activePage + 1), isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === (maxNumber - 3)) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (activePage - 1), isEllipsis: false},
+            {number: activePage, isEllipsis: false},
+            {number: (activePage + 1), isEllipsis: false},
+            {number: (activePage + 2), isEllipsis: false},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === (maxNumber - 2)) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (activePage - 1), isEllipsis: false},
+            {number: activePage, isEllipsis: false},
+            {number: (activePage + 1), isEllipsis: false},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === (maxNumber - 1)) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (activePage - 1), isEllipsis: false},
+            {number: activePage, isEllipsis: false},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === maxNumber) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (maxNumber - 1), isEllipsis: false},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === 4) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: 2, isEllipsis: false},
+            {number: 3, isEllipsis: false},
+            {number: 4, isEllipsis: false},
+            {number: 5, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === 3) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: 2, isEllipsis: false},
+            {number: 3, isEllipsis: false},
+            {number: 4, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === 2) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: 2, isEllipsis: false},
+            {number: 3, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (maxNumber), isEllipsis: false}
+        );
+    } else if (activePage === 1) {
+        items.push(
+            {number: 1, isEllipsis: false},
+            {number: 2, isEllipsis: false},
+            {number: null, isEllipsis: true},
+            {number: (maxNumber), isEllipsis: false}
+        );
     }
     return items;
 }
 
+@cn('pagination')
 class PaginationBasic extends Component {
     static propTypes = {
         total: PropTypes.number.isRequired,
@@ -23,17 +105,19 @@ class PaginationBasic extends Component {
         items: []
     };
 
-
     componentWillMount() {
-        const {total} = this.props;
-        const items = setItems(total);
+        const {total, activePage} = this.props;
+        const items = setItems(total, activePage);
         this.setState({items});
     };
 
     componentWillReceiveProps(nextProps) {
-        const {total} = this.props;
+        const {total, activePage} = this.props;
         if (total !== nextProps.total) {
-            const items = setItems(nextProps.total);
+            const items = setItems(nextProps.total, nextProps.activePage);
+            this.setState({items});
+        } else if (activePage !==nextProps.activePage) {
+            const items = setItems(nextProps.total, nextProps.activePage);
             this.setState({items});
         }
     };
@@ -62,6 +146,7 @@ class PaginationBasic extends Component {
                         className='firstPage'
                         onClick={ this.changePageOnClick(1) }
                         disabled={ prevDisabled }
+
                     />
                     <Pagination.Prev
                         className='prevPage'
@@ -69,15 +154,25 @@ class PaginationBasic extends Component {
                         disabled={ prevDisabled }
                     />
                     {
-                        items.map((pageNumber) => (
-                            <Pagination.Item
-                                key={ pageNumber }
-                                active={ pageNumber === activePage }
-                                onClick={ this.changePageOnClick(pageNumber) }
-                            >
-                                {pageNumber}
-                            </Pagination.Item>
-                        ))
+                        items.map((item) => {
+                            let {number, isEllipsis} = item;
+                            if (isEllipsis === true) {
+                                return (
+                                    <Pagination.Ellipsis
+                                        disabled={ true }
+                                        key={ (number + 'key') }
+                                    />
+                                );
+                            } return (
+                                <Pagination.Item
+                                    key={ number }
+                                    active={ number === activePage }
+                                    onClick={ this.changePageOnClick(number) }
+                                >
+                                    {number}
+                                </Pagination.Item>
+                            );
+                        })
                     }
                     <Pagination.Next
                         className='nextPage'

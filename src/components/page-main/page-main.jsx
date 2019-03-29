@@ -20,7 +20,7 @@ export default class PageMain extends React.Component {
             <div className={ cn() }>
                 <Search />
                 <PaginationBasic
-                    total={ 6 }
+                    total={ 4 }
                     onChange={ this.handlePageChange }
                     activePage={ activePage }
                 />
