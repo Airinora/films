@@ -7,88 +7,109 @@ import cn from '../../utils/cn';
 
 function setItems(maxNumber, activePage) {
     let items = [];
-    if (maxNumber <= 5) {
-        for (let pageNumber = 1; pageNumber <= maxNumber; pageNumber++) {
-            items.push({number: pageNumber, isEllipsis: false});
-        }
-    } else if ((activePage + 3) < maxNumber && activePage > 4) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (activePage - 1), isEllipsis: false},
-            {number: activePage, isEllipsis: false},
-            {number: (activePage + 1), isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === (maxNumber - 3)) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (activePage - 1), isEllipsis: false},
-            {number: activePage, isEllipsis: false},
-            {number: (activePage + 1), isEllipsis: false},
-            {number: (activePage + 2), isEllipsis: false},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === (maxNumber - 2)) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (activePage - 1), isEllipsis: false},
-            {number: activePage, isEllipsis: false},
-            {number: (activePage + 1), isEllipsis: false},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === (maxNumber - 1)) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (activePage - 1), isEllipsis: false},
-            {number: activePage, isEllipsis: false},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === maxNumber) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (maxNumber - 1), isEllipsis: false},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === 4) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: 2, isEllipsis: false},
-            {number: 3, isEllipsis: false},
-            {number: 4, isEllipsis: false},
-            {number: 5, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === 3) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: 2, isEllipsis: false},
-            {number: 3, isEllipsis: false},
-            {number: 4, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === 2) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: 2, isEllipsis: false},
-            {number: 3, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (maxNumber), isEllipsis: false}
-        );
-    } else if (activePage === 1) {
-        items.push(
-            {number: 1, isEllipsis: false},
-            {number: 2, isEllipsis: false},
-            {number: null, isEllipsis: true},
-            {number: (maxNumber), isEllipsis: false}
-        );
+    const pageOne = {number: 1, isEllipsis: false};
+    const ellipsis = {number: null, isEllipsis: true};
+    const pageLast = {number: maxNumber, isEllipsis: false};
+    const pagePrevious = {number: activePage - 1, isEllipsis: false};
+    const pageActive = {number: activePage, isEllipsis: false};
+    const pageNext = {number: activePage + 1, isEllipsis: false};
+    const pageTwo = {number: 2, isEllipsis: false};
+    const pageThree = {number: 3, isEllipsis: false};
+    const pageFour = {number: 4, isEllipsis: false};
+    const pageFive = {number: 5, isEllipsis: false};
+    switch(true) {
+        case (maxNumber <= 5):
+            for (let pageNumber = 1; pageNumber <= maxNumber; pageNumber++) {
+                items.push({number: pageNumber, isEllipsis: false});
+            }
+            break;
+        case ((activePage + 3) < maxNumber && activePage > 4):
+            items.push(
+                pageOne,
+                ellipsis,
+                pagePrevious,
+                pageActive,
+                pageNext,
+                ellipsis,
+                pageLast
+            );
+            break;
+        case (activePage === (maxNumber - 3)):
+            items.push(
+                pageOne,
+                ellipsis,
+                pagePrevious,
+                pageActive,
+                pageNext,
+                {number: activePage + 2, isEllipsis: false},
+                pageLast
+            );
+            break;
+        case (activePage === (maxNumber - 2)):
+            items.push(
+                pageOne,
+                ellipsis,
+                pagePrevious,
+                pageActive,
+                pageNext,
+                pageLast
+            );
+            break;
+        case (activePage === (maxNumber - 1)):
+            items.push(
+                pageOne,
+                ellipsis,
+                pagePrevious,
+                pageActive,
+                pageLast
+            );
+            break;
+        case (activePage === maxNumber):
+            items.push(
+                pageOne,
+                ellipsis,
+                {number: maxNumber - 1, isEllipsis: false},
+                pageLast
+            );
+            break;
+        case (activePage === 4):
+            items.push(
+                pageOne,
+                pageTwo,
+                pageThree,
+                pageFour,
+                pageFive,
+                ellipsis,
+                pageLast
+            );
+            break;
+        case (activePage === 3):
+            items.push(
+                pageOne,
+                pageTwo,
+                pageThree,
+                pageFour,
+                ellipsis,
+                pageLast
+            );
+            break;
+        case (activePage === 2):
+            items.push(
+                pageOne,
+                pageTwo,
+                pageThree,
+                ellipsis,
+                pageLast
+            );
+            break;
+        case (activePage === 1):
+            items.push(
+                pageOne,
+                pageTwo,
+                ellipsis,
+                pageLast
+            );
+            break;
     }
     return items;
 }
@@ -131,7 +152,6 @@ class PaginationBasic extends Component {
     render() {
         const {items} = this.state;
         const {activePage, total} = this.props;
-        const lastPage = total;
         const previousPage = activePage - 1;
         const nextPage = activePage + 1;
         const prevDisabled = activePage === 1;
@@ -142,12 +162,6 @@ class PaginationBasic extends Component {
                     active={ activePage }
                     maxNumber={ total }
                 >
-                    <Pagination.First
-                        className='firstPage'
-                        onClick={ this.changePageOnClick(1) }
-                        disabled={ prevDisabled }
-
-                    />
                     <Pagination.Prev
                         className='prevPage'
                         onClick={ this.changePageOnClick(previousPage) }
@@ -160,7 +174,7 @@ class PaginationBasic extends Component {
                                 return (
                                     <Pagination.Ellipsis
                                         disabled={ true }
-                                        key={ (i + 'key') }
+                                        key={ i + 'key' }
                                     />
                                 );
                             } return (
@@ -177,11 +191,6 @@ class PaginationBasic extends Component {
                     <Pagination.Next
                         className='nextPage'
                         onClick={ this.changePageOnClick(nextPage) }
-                        disabled={ nextDisabled }
-                    />
-                    <Pagination.Last
-                        className='lastPage'
-                        onClick={ this.changePageOnClick(lastPage) }
                         disabled={ nextDisabled }
                     />
                 </Pagination>
