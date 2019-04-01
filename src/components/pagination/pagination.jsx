@@ -129,13 +129,13 @@ class PaginationBasic extends Component {
     };
 
     render() {
-        let {items} = this.state;
-        let {activePage, total} = this.props;
-        let lastPage = total;
-        let previousPage = activePage - 1;
-        let nextPage = activePage + 1;
-        let prevDisabled = activePage === 1;
-        let nextDisabled = activePage === total;
+        const {items} = this.state;
+        const {activePage, total} = this.props;
+        const lastPage = total;
+        const previousPage = activePage - 1;
+        const nextPage = activePage + 1;
+        const prevDisabled = activePage === 1;
+        const nextDisabled = activePage === total;
         return (
             <div>
                 <Pagination
@@ -155,7 +155,7 @@ class PaginationBasic extends Component {
                     />
                     {
                         items.map((item, i) => {
-                            let {number, isEllipsis} = item;
+                            const {number, isEllipsis} = item;
                             if (isEllipsis === true) {
                                 return (
                                     <Pagination.Ellipsis

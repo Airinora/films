@@ -16,9 +16,9 @@ class Favourite extends Component {
     render(cn) {
         const {activePage} = this.state;
         return (
-            <div>
+            <div className={ cn() }>
                 <Heading headingValue='Favourite films' />
-                <div className={ cn() } />
+                <div />
                 <PaginationBasic
                     total={ 5 }
                     onChange={ this.handlePageChange }

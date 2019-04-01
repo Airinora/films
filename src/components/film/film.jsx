@@ -6,7 +6,7 @@
 //     render(cn) {
 //         return (
 //             <div className={ cn() }>
-//                 <div className={ cn('title') }>Title</div>
+//                 <div className={ cn('title') }>title</div>
 //                 <div className={ cn('poster') }>
 //                     <img alt='poster' src='' />
 //                 </div>
