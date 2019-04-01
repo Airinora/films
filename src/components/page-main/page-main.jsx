@@ -3,6 +3,7 @@ import React from 'react';
 import cn from '../../utils/cn';
 import Search from '../search/search';
 import PaginationBasic from "../pagination/pagination";
+import CounterComponent from "../counter/counter-component";
 
 @cn('page-main')
 export default class PageMain extends React.Component {
@@ -20,10 +21,11 @@ export default class PageMain extends React.Component {
             <div className={ cn() }>
                 <Search />
                 <PaginationBasic
-                    total={ 4 }
+                    total={ 8 }
                     onChange={ this.handlePageChange }
                     activePage={ activePage }
                 />
+                <CounterComponent />
             </div>
         );
     }

@@ -3,12 +3,13 @@ import { Route, Switch, HashRouter } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import PageMain from '../page-main/page-main';
 import PageError from '../page-error/page-error';
-import { MAIN_PAGE_ROUTE, FAVOURITE_ROUTE, WATCHED_ROUTE } from '../../constants/routes';
+import {MAIN_PAGE_ROUTE, FAVOURITE_ROUTE, WATCHED_ROUTE, FILM_ROUTE} from '../../constants/routes';
 import Header from '../header/header';
 import Favourite from "../favourite/favourite";
 import Watched from "../watched/watched";
 import './app.pcss';
 import '../../assets/styles/styles.pcss';
+import Film from "../film/film";
 
 export default class App extends React.Component {
     render() {
@@ -32,6 +33,12 @@ export default class App extends React.Component {
                                 exact={ true }
                                 path={ WATCHED_ROUTE }
                                 component={ Watched }
+                            />
+                            <Route
+                                exact={ true }
+                                path={ FILM_ROUTE }
+                                component={ Film }
+
                             />
                             <Route
                                 path='*'

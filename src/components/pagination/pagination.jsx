@@ -18,7 +18,7 @@ function setItems(maxNumber, activePage) {
     const pageFour = {number: 4, isEllipsis: false};
     const pageFive = {number: 5, isEllipsis: false};
     switch(true) {
-        case (maxNumber <= 5):
+        case (maxNumber <= 7):
             for (let pageNumber = 1; pageNumber <= maxNumber; pageNumber++) {
                 items.push({number: pageNumber, isEllipsis: false});
             }
@@ -160,7 +160,6 @@ class PaginationBasic extends Component {
             <div>
                 <Pagination
                     active={ activePage }
-                    maxNumber={ total }
                 >
                     <Pagination.Prev
                         className='prevPage'

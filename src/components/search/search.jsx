@@ -6,8 +6,8 @@ import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
 
-// let results = [
-//     {title:"Wedding Crashers",year:"2005",imdbID:"tt0396269"},
+// let searchResults = [
+//     {title: "Wedding Crashers", year: "2005", imdbID: "tt0396269"},
 //     {title:"American Wedding",year:"2003",imdbID:"tt0328828"},
 //     {title:"The Wedding Singer",year:"1998",imdbID:"tt0120888"},
 //     {title:"My Best Friend's Wedding",year:"1997",imdbID:"tt0119738"},
