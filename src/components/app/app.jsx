@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, HashRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import PageMain from '../page-main/page-main';
 import PageError from '../page-error/page-error';
@@ -14,40 +14,37 @@ import Film from "../film/film";
 export default class App extends React.Component {
     render() {
         return (
-            <HashRouter>
-                <div className='app'>
-                    <Header />
-                    <Container>
-                        <Switch>
-                            <Route
-                                exact={ true }
-                                path={ MAIN_PAGE_ROUTE }
-                                component={ PageMain }
-                            />
-                            <Route
-                                exact={ true }
-                                path={ FAVOURITE_ROUTE }
-                                component={ Favourite }
-                            />
-                            <Route
-                                exact={ true }
-                                path={ WATCHED_ROUTE }
-                                component={ Watched }
-                            />
-                            <Route
-                                exact={ true }
-                                path={ FILM_ROUTE }
-                                component={ Film }
-
-                            />
-                            <Route
-                                path='*'
-                                component={ PageError }
-                            />
-                        </Switch>
-                    </Container>
-                </div>
-            </HashRouter>
+            <div className='app'>
+                <Header />
+                <Container>
+                    <Switch>
+                        <Route
+                            exact={ true }
+                            path={ MAIN_PAGE_ROUTE }
+                            component={ PageMain }
+                        />
+                        <Route
+                            exact={ true }
+                            path={ FAVOURITE_ROUTE }
+                            component={ Favourite }
+                        />
+                        <Route
+                            exact={ true }
+                            path={ WATCHED_ROUTE }
+                            component={ Watched }
+                        />
+                        <Route
+                            exact={ true }
+                            path={ FILM_ROUTE }
+                            component={ Film }
+                        />
+                        <Route
+                            path='*'
+                            component={ PageError }
+                        />
+                    </Switch>
+                </Container>
+            </div>
         );
     }
 }

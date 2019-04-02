@@ -17,17 +17,17 @@ class Header extends Component {
                     <Container className={ cn('nav') }>
                         <div className={ cn('label') }>Amazing Films</div>
                         <Nav className='mr-auto'>
-                            <Nav.Link>
+                            <Nav.Link as='div'>
                                 <NavLink to={ MAIN_PAGE_ROUTE } className={ cn('nav-link') }>
                                     Home
                                 </NavLink>
                             </Nav.Link>
-                            <Nav.Link>
+                            <Nav.Link as='div'>
                                 <NavLink to={ FAVOURITE_ROUTE } className={ cn('nav-link') }>
                                     Favourite
                                 </NavLink>
                             </Nav.Link>
-                            <Nav.Link>
+                            <Nav.Link as='div'>
                                 <NavLink to={ WATCHED_ROUTE } className={ cn('nav-link') }>
                                     Watched
                                 </NavLink>
