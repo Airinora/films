@@ -6,17 +6,18 @@ import { clickMinus, clickPlus } from "../../actions/action";
 
 export class CounterComponent extends Component {
     static propTypes = {
-        number: PropTypes.number.isRequired
-        // onChange: PropTypes.func.isRequired
+        number: PropTypes.number.isRequired,
+        clickPlus: PropTypes.func.isRequired,
+        clickMinus: PropTypes.func.isRequired
     };
 
     render() {
-        const { number } = this.props;
+        const { number, clickMinus, clickPlus } = this.props;
         return (
             <div>
-                <button type='button' onChange={ clickMinus }>-</button>
+                <button type='button' onClick={ clickMinus }>-</button>
                 <div>{ number }</div>
-                <button type='button' onChange={ clickPlus }>+</button>
+                <button type='button' onClick={ clickPlus }>+</button>
             </div>
         );
     }
@@ -26,4 +27,10 @@ const mapStateToProps = store => ({
     number: store.counter.number
 });
 
-export default connect(mapStateToProps)(CounterComponent);
+export default connect(
+    mapStateToProps,
+    {
+        clickMinus,
+        clickPlus
+    }
+)(CounterComponent);
