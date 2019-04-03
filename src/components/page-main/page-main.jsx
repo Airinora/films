@@ -6,7 +6,7 @@ import PaginationBasic from "../pagination/pagination";
 import CounterComponent from "../counter/counter-component";
 
 const itemsPerPage = 10;
-let pages = Math.ceil(searchResultsTotal/itemsPerPage);
+let pagesCount = Math.ceil(searchResultsTotal/itemsPerPage);
 
 @cn('page-main')
 export default class PageMain extends React.Component {
@@ -24,7 +24,7 @@ export default class PageMain extends React.Component {
             <div className={ cn() }>
                 <Search />
                 <PaginationBasic
-                    total={ pages }
+                    total={ pagesCount }
                     onChange={ this.handlePageChange }
                     activePage={ activePage }
                 />

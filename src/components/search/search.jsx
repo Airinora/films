@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
+import {FILM_ROUTE} from "../../constants/routes";
 
 let searchResults = [
     {title: "Wedding Crashers", year: "2005", imdbID: "tt0396269"},
@@ -41,9 +42,10 @@ let searchResults = [
 ];
 
 export const searchResultsTotal = searchResults.length;
+const resultPage = searchResults.slice(0, 10);
 
 @cn('search')
-class Search extends Component {
+export default class Search extends Component {
     render(cn) {
         return (
             <div className={ cn() }>
@@ -52,10 +54,23 @@ class Search extends Component {
                     <Button variant='primary' className={ cn('button') }>Find film</Button>
                 </Form>
                 <Heading headingValue='Search results' />
+                {
+                    resultPage.map((resultPage) => {
+                        const {year, title, imdbID} = resultPage;
+                        return (
+                            <div className={ cn('film') } key={ imdbID } id={ imdbID }>
+                                <div className={ cn('film-info') }>
+                                    <div className={ cn('film-date') }>{year}</div>
+                                    <a href={ FILM_ROUTE } className={ cn('film-title') }>{title}</a>
+                                </div>
+                                <div className={ cn('film-buttons') }>
+                                    <Button type='button' className={ cn('film-button') }>Add to Watched</Button>
+                                    <Button type='button' className={ cn('film-button') }>Add to Favourite</Button>
+                                </div>
+                            </div>
+                        )})
+                }
             </div>
         );
     }
 }
-
-
-export default Search;
