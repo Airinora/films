@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 class ShowHistory extends React.Component {
     static propTypes = {
-        history: PropTypes.objectOf.isRequired
+        history: PropTypes.shape.isRequired
     };
 
     render() {

@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/es/FormControl";
 import Button from "react-bootstrap/Button";
+import { NavLink } from 'react-router-dom';
 import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
 import {FILM_ROUTE} from "../../constants/routes";
+
 
 let searchResults = [
     {title: "Wedding Crashers", year: "2005", imdbID: "tt0396269"},
@@ -61,11 +63,11 @@ export default class Search extends Component {
                             <div className={ cn('film') } key={ imdbID } id={ imdbID }>
                                 <div className={ cn('film-info') }>
                                     <div className={ cn('film-date') }>{year}</div>
-                                    <a href={ FILM_ROUTE } className={ cn('film-title') }>{title}</a>
+                                    <NavLink to={ FILM_ROUTE } className={ cn('film-title') }>{title}</NavLink>
                                 </div>
                                 <div className={ cn('film-buttons') }>
                                     <Button type='button' className={ cn('film-button') }>Add to Watched</Button>
-                                    <Button type='button' className={ cn('film-button') }>Add to Favourite</Button>
+                                    <Button variant='link' type='button' className={ cn('film-button') }>Add to Favourite</Button>
                                 </div>
                             </div>
                         )})

@@ -16,26 +16,46 @@ export default class Film extends Component {
                         </div>
                     </div>
                     <div className={ cn('content') }>
-                        <h2 className={ cn('title') }>Title</h2>
+                        <h2 className={ cn('title') }>
+                            Title
+                        </h2>
                         <div className={ cn('info-block') }>
                             <div className={ cn('info') }>
-                                <h6 className={ cn('info-title') }>Year</h6>
-                                <span>Year</span>
+                                <h6 className={ cn('info-title') }>
+                                    Year
+                                </h6>
+                                <span>
+                                    Year
+                                </span>
                             </div>
                             <div className={ cn('info') }>
-                                <h6 className={ cn('info-title') }>Country</h6>
-                                <span>Country</span>
+                                <h6 className={ cn('info-title') }>
+                                    Country
+                                </h6>
+                                <span>
+                                    Country
+                                </span>
                             </div>
                             <div className={ cn('info') }>
-                                <h6 className={ cn('info-title') }>Director</h6>
-                                <span>Director</span>
+                                <h6 className={ cn('info-title') }>
+                                    Director
+                                </h6>
+                                <span>
+                                    Director
+                                </span>
                             </div>
                             <div className={ cn('info') }>
-                                <h6 className={ cn('info-title') }>Genre</h6>
-                                <span>Genre</span>
+                                <h6 className={ cn('info-title') }>
+                                    Genre
+                                </h6>
+                                <span>
+                                    Genre
+                                </span>
                             </div>
                         </div>
-                        <div className={ cn('plot') }>plot</div>
+                        <div className={ cn('plot') }>
+                            plot
+                        </div>
                     </div>
                 </div>
             </div>
