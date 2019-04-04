@@ -109,7 +109,9 @@ export class Search extends Component {
 
     componentDidMount() {
         const {fetchData} = this.props;
-        fetchData('http://www.omdbapi.com/?apikey=136694e1&s=titanic');
+        // fetchData('http://www.omdbapi.com/?apikey=136694e1&s=titanic');
+        window.fetch(`http://www.omdbapi.com/?apikey=136694e1&s=titanic`)
+            .then((response) => console.log(response));
     }
 
     render(cn) {
