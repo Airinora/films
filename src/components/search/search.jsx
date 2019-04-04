@@ -3,10 +3,14 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/es/FormControl";
 import Button from "react-bootstrap/Button";
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+/* eslint-disable-next-line import/no-extraneous-dependencies */
+import PropTypes from "prop-types";
 import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
 import {FILM_ROUTE} from "../../constants/routes";
+import {filmsAreLoading} from "../../actions/action";
 
 
 let searchResults = [
@@ -43,12 +47,81 @@ let searchResults = [
     {title:"The Animatrix",year:"2003",imdbID:"tt0328832"}
 ];
 
+export function itemsFetchData(url) {
+    return (dispatch) => {
+        dispatch(filmsAreLoading(true));
+        console.log(url);
+        //
+        // fetch(url)
+        //     .then((response) => {
+        //         if (!response.ok) {
+        //             throw Error(response.statusText);
+        //         }
+        //
+        //         dispatch(filmsAreLoading(false));
+        //
+        //         return response;
+        //     })
+        //     .then((response) => response.json())
+        //     .then((films) => dispatch(filmsFetchDataSuccess(films)))
+        //     .catch(() => dispatch(filmsHaveErrored(true)));
+    };
+}
+
+// function fetchData(url) {
+//     this.setState({ isLoading: true });
+//
+//     fetch(url)
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw Error(response.statusText);
+//             }
+//
+//             this.setState({ isLoading: false });
+//
+//             return response;
+//         })
+//         .then((response) => response.json())
+//         .then((films) => this.setState({ films }))
+//         .catch(() => this.setState({ hasErrored: true }))
+// }
+
+const mapStateToProps = (state) => ({
+    items: state.items,
+    hasErrored: state.filmsError,
+    isLoading: state.filmsLoading
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchData: (url) => dispatch(itemsFetchData(url))
+});
+
 export const searchResultsTotal = searchResults.length;
 const resultPage = searchResults.slice(0, 10);
 
 @cn('search')
-export default class Search extends Component {
+export class Search extends Component {
+    static propTypes = {
+        fetchData: PropTypes.func,
+        hasErrored: PropTypes.bool,
+        isLoading: PropTypes.bool
+    };
+
+    componentDidMount() {
+        const {fetchData} = this.props;
+        fetchData('http://www.omdbapi.com/?apikey=136694e1&s=titanic');
+    }
+
     render(cn) {
+        const {hasErrored, isLoading } = this.props;
+        if (hasErrored) {
+            return <p>Sorry! There was an error loading the items</p>;
+        }
+
+        if (isLoading) {
+            return <p>Loading…</p>;
+        }
+
         return (
             <div className={ cn() }>
                 <Form className={ cn('form') }>
@@ -76,3 +149,5 @@ export default class Search extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

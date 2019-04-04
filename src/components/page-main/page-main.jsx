@@ -1,7 +1,7 @@
 import React from 'react';
 
 import cn from '../../utils/cn';
-import Search, { searchResultsTotal } from '../search/search';
+import { Search, searchResultsTotal } from '../search/search';
 import PaginationBasic from "../pagination/pagination";
 import CounterComponent from "../counter/counter-component";
 

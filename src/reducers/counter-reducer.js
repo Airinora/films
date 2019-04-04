@@ -1,3 +1,4 @@
+import {CLICK_MINUS, CLICK_PLUS} from "../actions/action";
 
 const initialState = {
     number: 0
@@ -5,9 +6,9 @@ const initialState = {
 
 export default function pageReducer(state = initialState, action) {
     switch (action.type) {
-        case 'CLICK_PLUS':
+        case CLICK_PLUS:
             return {number: state.number + 1};
-        case 'CLICK_MINUS':
+        case CLICK_MINUS:
             return {number: state.number - 1};
         default:
             return state;
