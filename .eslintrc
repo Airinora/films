@@ -48,6 +48,7 @@
       "specialLink": [ "to", "hrefLeft", "hrefRight" ],
       "aspects": [ "noHref", "invalidHref", "preferButton" ]
     }],
+    "no-case-declarations": "off",
     "no-shadow": 0,
     "no-plusplus": "off",
     "max-len": ["error", 200, 4, { "ignoreComments": true }],

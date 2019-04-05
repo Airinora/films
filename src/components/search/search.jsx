@@ -10,135 +10,46 @@ import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
 import {FILM_ROUTE} from "../../constants/routes";
-import {filmsAreLoading} from "../../actions/action";
+import {getFilms} from "../../actions/action";
 
-
-let searchResults = [
-    {title: "Wedding Crashers", year: "2005", imdbID: "tt0396269"},
-    {title:"American Wedding",year:"2003",imdbID:"tt0328828"},
-    {title:"The Wedding Singer",year:"1998",imdbID:"tt0120888"},
-    {title:"My Best Friend's Wedding",year:"1997",imdbID:"tt0119738"},
-    {title:"My Big Fat Greek Wedding",year:"2002",imdbID:"tt0259446"},
-    {title:"Mike and Dave Need Wedding Dates",year:"2016",imdbID:"tt2823054"},
-    {title:"The Wedding Planner",year:"2001",imdbID:"tt0209475"},
-    {title:"The Wedding Ringer",year:"2015",imdbID:"tt0884732"},
-    {title:"The Wedding Date",year:"2005",imdbID:"tt0372532"},
-    {title:"The Big Wedding",year:"2013",imdbID:"tt1931435"},
-    {title:"Muriel's Wedding",year:"1994",imdbID:"tt0110598"},
-    {title:"After the Wedding",year:"2006",imdbID:"tt0457655"},
-    {title:"My Big Fat Greek Wedding 2",year:"2016",imdbID:"tt3760922"},
-    {title:"Monsoon Wedding",year:"2001",imdbID:"tt0265343"},
-    {title:"Margot at the Wedding",year:"2007",imdbID:"tt0757361"},
-    {title:"Wedding Daze",year:"2006",imdbID:"tt0484877"},
-    {title:"Destination Wedding",year:"2018",imdbID:"tt6987770"},
-    {title:"The Wedding Banquet",year:"1993",imdbID:"tt0107156"},
-    {title:"Veere Di Wedding",year:"2018",imdbID:"tt5842616"},
-    {title:"Jenny's Wedding",year:"2015",imdbID:"tt3289712"},
-    {title:"Crazy, Stupid, Love.",year:"2011",imdbID:"tt1570728","type":"movie"},
-    {title:"Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",year:"1964",imdbID:"tt0057012"},
-    {title:"Love Actually",year:"2003",imdbID:"tt0314331"},
-    {title:"Shakespeare in Love",year:"1998",imdbID:"tt0138097"},
-    {title:"P.S. I Love You",year:"2007",imdbID:"tt0431308"},
-    {title:"I Love You, Man",year:"2009",imdbID:"tt1155056"},
-    {title:"Love & Other Drugs",year:"2010",imdbID:"tt0758752"},
-    {title:"Punch-Drunk Love",year:"2002",imdbID:"tt0272338"},
-    {title:"From Paris with Love",year:"2010",imdbID:"tt1179034"},
-    {title:"From Russia with Love",year:"1963",imdbID:"tt0057076"},
-    {title:"The Animatrix",year:"2003",imdbID:"tt0328832"}
-];
-
-export function itemsFetchData(url) {
-    return (dispatch) => {
-        dispatch(filmsAreLoading(true));
-        console.log(url);
-        //
-        // fetch(url)
-        //     .then((response) => {
-        //         if (!response.ok) {
-        //             throw Error(response.statusText);
-        //         }
-        //
-        //         dispatch(filmsAreLoading(false));
-        //
-        //         return response;
-        //     })
-        //     .then((response) => response.json())
-        //     .then((films) => dispatch(filmsFetchDataSuccess(films)))
-        //     .catch(() => dispatch(filmsHaveErrored(true)));
-    };
-}
-
-// function fetchData(url) {
-//     this.setState({ isLoading: true });
-//
-//     fetch(url)
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw Error(response.statusText);
-//             }
-//
-//             this.setState({ isLoading: false });
-//
-//             return response;
-//         })
-//         .then((response) => response.json())
-//         .then((films) => this.setState({ films }))
-//         .catch(() => this.setState({ hasErrored: true }))
-// }
-
-const mapStateToProps = (state) => ({
-    items: state.items,
-    hasErrored: state.filmsError,
-    isLoading: state.filmsLoading
+const mapStateToProps = ({films: {items, error}}) => ({
+    items,
+    error
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    fetchData: (url) => dispatch(itemsFetchData(url))
-});
+// const searchInput = document.getElementById('searchInput');
+// const inputValue = searchInput.value;
 
-export const searchResultsTotal = searchResults.length;
-const resultPage = searchResults.slice(0, 10);
 
 @cn('search')
 export class Search extends Component {
     static propTypes = {
-        fetchData: PropTypes.func,
-        hasErrored: PropTypes.bool,
-        isLoading: PropTypes.bool
+        getFilms: PropTypes.func.isRequired,
+        items: PropTypes.array
     };
 
     componentDidMount() {
-        const {fetchData} = this.props;
-        // fetchData('http://www.omdbapi.com/?apikey=136694e1&s=titanic');
-        window.fetch(`http://www.omdbapi.com/?apikey=136694e1&s=titanic`)
-            .then((response) => console.log(response));
+        const { getFilms } = this.props;
+        getFilms('wedding', undefined);
     }
 
     render(cn) {
-        const {hasErrored, isLoading } = this.props;
-        if (hasErrored) {
-            return <p>Sorry! There was an error loading the items</p>;
-        }
-
-        if (isLoading) {
-            return <p>Loading…</p>;
-        }
-
+        const { items } = this.props;
         return (
             <div className={ cn() }>
                 <Form className={ cn('form') }>
-                    <FormControl type='text' placeholder='Film title' className={ cn('input') } />
+                    <FormControl type='text' placeholder='Film title' className={ cn('input') } id='searchInput' />
                     <Button variant='primary' className={ cn('button') }>Find film</Button>
                 </Form>
                 <Heading headingValue='Search results' />
                 {
-                    resultPage.map((resultPage) => {
-                        const {year, title, imdbID} = resultPage;
+                    items.map((resultPage) => {
+                        const {Year, Title, imdbID} = resultPage;
                         return (
                             <div className={ cn('film') } key={ imdbID } id={ imdbID }>
                                 <div className={ cn('film-info') }>
-                                    <div className={ cn('film-date') }>{year}</div>
-                                    <NavLink to={ FILM_ROUTE } className={ cn('film-title') }>{title}</NavLink>
+                                    <div className={ cn('film-date') }>{Year}</div>
+                                    <NavLink to={ FILM_ROUTE } className={ cn('film-title') }>{Title}</NavLink>
                                 </div>
                                 <div className={ cn('film-buttons') }>
                                     <Button type='button' className={ cn('film-button') }>Add to Watched</Button>
@@ -152,4 +63,4 @@ export class Search extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, {getFilms})(Search);

@@ -1,15 +1,23 @@
 import React from 'react';
 
+import {connect} from "react-redux";
+/* eslint-disable-next-line import/no-extraneous-dependencies */
+import PropTypes from "prop-types";
 import cn from '../../utils/cn';
-import { Search, searchResultsTotal } from '../search/search';
+import Search from '../search/search';
 import PaginationBasic from "../pagination/pagination";
 import CounterComponent from "../counter/counter-component";
 
-const itemsPerPage = 10;
-let pagesCount = Math.ceil(searchResultsTotal/itemsPerPage);
+const mapStateToProps = ({films: {total}}) => ({
+    total
+});
 
 @cn('page-main')
-export default class PageMain extends React.Component {
+export class PageMain extends React.Component {
+    static propTypes = {
+        total: PropTypes.number.isRequired
+    };
+
     state = {
         activePage: 1
     };
@@ -19,7 +27,10 @@ export default class PageMain extends React.Component {
     };
 
     render(cn) {
-        const {activePage} = this.state;
+        const { activePage } = this.state;
+        const { total } = this.props;
+        const itemsPerPage = 10;
+        let pagesCount = Math.ceil(total/itemsPerPage);
         return (
             <div className={ cn() }>
                 <Search />
@@ -33,3 +44,5 @@ export default class PageMain extends React.Component {
         );
     }
 }
+
+export default connect(mapStateToProps)(PageMain);

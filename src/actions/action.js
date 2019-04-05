@@ -15,23 +15,51 @@ export function clickMinus() {
     }
 }
 
-export function filmsHaveErrored(bool) {
+function filmsHaveErrored(message) {
     return {
         type: FILMS_HAVE_ERRORED,
-        hasErrored: bool
+        error: message
     };
 }
 
-export function filmsAreLoading(bool) {
+function filmsAreLoading(bool) {
     return {
         type: FILMS_ARE_LOADING,
         isLoading: bool
     };
 }
 
-export function filmsFetchDataSuccess(films) {
+function filmsFetchDataSuccess(films, total) {
     return {
         type: FILMS_FETCH_DATA_SUCCESS,
-        films
+        films,
+        total
     };
+}
+
+const apiKey = '136694e1';
+
+export function getFilms(title, page) {
+    return (dispatch) => {
+        dispatch(filmsAreLoading(true));
+        window.fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&page=${page}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response;
+            })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.Response === "False") {
+                    throw response.Error;
+                }
+                dispatch(filmsAreLoading(false));
+                dispatch(filmsFetchDataSuccess(response.Search, response.totalResults));
+            })
+            .catch((error) => {
+                dispatch(filmsHaveErrored(error));
+                dispatch(filmsAreLoading(false));
+            });
+    }
 }

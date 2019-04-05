@@ -1,13 +1,10 @@
 import { combineReducers } from 'redux';
 import counter from './counter-reducer';
-import { filmsError, filmsLoading, filmsSuccess } from './films-reducer';
+import {films} from './films-reducer';
 
 const reducers = {
     counter,
-    filmsError,
-    filmsLoading,
-    filmsSuccess
-
+    films
 };
 
 export default combineReducers(reducers);
