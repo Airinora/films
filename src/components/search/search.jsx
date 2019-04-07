@@ -12,21 +12,16 @@ import Heading from "../heading/heading";
 import {FILM_ROUTE} from "../../constants/routes";
 import {getFilms} from "../../actions/action";
 
-const mapStateToProps = ({value, films: {items, error}}) => ({
-    value,
+const mapStateToProps = ({films: {items, error}}) => ({
     items,
     error
 });
-
-// const searchInput = document.getElementById('searchInput');
-// const inputValue = searchInput.value;
 
 @cn('search')
 export class Search extends Component {
     static propTypes = {
         getFilms: PropTypes.func.isRequired,
-        items: PropTypes.array.isRequired,
-        value: PropTypes.string.isRequired
+        items: PropTypes.array.isRequired
     };
 
     componentDidMount() {
@@ -35,7 +30,8 @@ export class Search extends Component {
     }
 
     render(cn) {
-        const { items, getFilms, value } = this.props;
+        const { items } = this.props;
+        // const { films: { value } } = this.state;
         return (
             <div className={ cn() }>
                 <Form className={ cn('form') }>
@@ -44,12 +40,17 @@ export class Search extends Component {
                         placeholder='Film title'
                         className={ cn('input') }
                         id='searchInput'
-                        value={ value }
-                        onChange={ (value) => {this.setState({});
-                            getFilms(value, undefined, undefined)
-                        } }
+                        // value={ value }
+                        // onChange={ (event) => {this.setState({value: event.target.value})} }
                     />
-                    <Button variant='primary' className={ cn('button') } type='button'>Find film</Button>
+                    <Button
+                        variant='primary'
+                        className={ cn('button') }
+                        type='button'
+                        // onClick={ getFilms(value, undefined, undefined) }
+                    >
+                        Find film
+                    </Button>
                 </Form>
                 <Heading headingValue='Search results' />
                 {
