@@ -39,10 +39,10 @@ function filmsFetchDataSuccess(films, total) {
 
 const apiKey = '136694e1';
 
-export function getFilms(title, page) {
+export function getFilms(title, page, id) {
     return (dispatch) => {
         dispatch(filmsAreLoading(true));
-        window.fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&page=${page}`)
+        window.fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&page=${page}&i=${id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw Error(response.statusText);

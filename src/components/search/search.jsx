@@ -12,7 +12,8 @@ import Heading from "../heading/heading";
 import {FILM_ROUTE} from "../../constants/routes";
 import {getFilms} from "../../actions/action";
 
-const mapStateToProps = ({films: {items, error}}) => ({
+const mapStateToProps = ({value, films: {items, error}}) => ({
+    value,
     items,
     error
 });
@@ -20,26 +21,35 @@ const mapStateToProps = ({films: {items, error}}) => ({
 // const searchInput = document.getElementById('searchInput');
 // const inputValue = searchInput.value;
 
-
 @cn('search')
 export class Search extends Component {
     static propTypes = {
         getFilms: PropTypes.func.isRequired,
-        items: PropTypes.array
+        items: PropTypes.array.isRequired,
+        value: PropTypes.string.isRequired
     };
 
     componentDidMount() {
         const { getFilms } = this.props;
-        getFilms('wedding', undefined);
+        getFilms('olga', 1, undefined);
     }
 
     render(cn) {
-        const { items } = this.props;
+        const { items, getFilms, value } = this.props;
         return (
             <div className={ cn() }>
                 <Form className={ cn('form') }>
-                    <FormControl type='text' placeholder='Film title' className={ cn('input') } id='searchInput' />
-                    <Button variant='primary' className={ cn('button') }>Find film</Button>
+                    <FormControl
+                        type='text'
+                        placeholder='Film title'
+                        className={ cn('input') }
+                        id='searchInput'
+                        value={ value }
+                        onChange={ (value) => {this.setState({});
+                            getFilms(value, undefined, undefined)
+                        } }
+                    />
+                    <Button variant='primary' className={ cn('button') } type='button'>Find film</Button>
                 </Form>
                 <Heading headingValue='Search results' />
                 {
