@@ -24,6 +24,10 @@ export class Search extends Component {
         items: PropTypes.array.isRequired
     };
 
+    state = {
+        value: ''
+    };
+
     componentDidMount() {
         const { getFilms } = this.props;
         getFilms('olga', 1, undefined);
@@ -31,7 +35,7 @@ export class Search extends Component {
 
     render(cn) {
         const { items } = this.props;
-        // const { films: { value } } = this.state;
+        const { value } = this.state;
         return (
             <div className={ cn() }>
                 <Form className={ cn('form') }>
@@ -40,8 +44,8 @@ export class Search extends Component {
                         placeholder='Film title'
                         className={ cn('input') }
                         id='searchInput'
-                        // value={ value }
-                        // onChange={ (event) => {this.setState({value: event.target.value})} }
+                        value={ value }
+                        onChange={ (event) => {this.setState({value: event.target.value})} }
                     />
                     <Button
                         variant='primary'
