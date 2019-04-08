@@ -42,6 +42,7 @@
     "prefer-rest-params": 0,
     "no-unused-expressions": 0,
     "no-extend-native": 0,
+    "no-alert": "off",
     "jsx-quotes": ["error", "prefer-single"],
     "jsx-a11y/anchor-is-valid": [ "error", {
       "components": [ "Link" ],

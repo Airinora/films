@@ -37,17 +37,16 @@ function filmsFetchDataSuccess(films, total) {
     };
 }
 
-const apiKey = '136694e1';
+export const apiKey = '136694e1';
 
-export function getFilms(title, page, id) {
+export function getFilms(title, page) {
     return (dispatch) => {
         dispatch(filmsAreLoading(true));
-        window.fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&page=${page}&i=${id}`)
+        window.fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&page=${page}`)
             .then((response) => {
                 if (!response.ok) {
                     dispatch(filmsAreLoading(false));
-                    // console.log('111');
-                    // console.log(response.statusText);
+                    window.alert(response.statusText);
                     throw Error(response.statusText);
                 }
                 return response;
@@ -55,18 +54,15 @@ export function getFilms(title, page, id) {
             .then((response) => response.json())
             .then((response) => {
                 if (response.Response === "False") {
-                    // console.log('222');
-                    // console.log(response.Error);
                     throw response.Error;
                 }
                 dispatch(filmsAreLoading(false));
                 dispatch(filmsFetchDataSuccess(response.Search, response.totalResults));
             })
             .catch((error) => {
-                dispatch(filmsHaveErrored(error));
-                // console.log('333');
-                // console.log(error);
                 dispatch(filmsAreLoading(false));
+                dispatch(filmsHaveErrored(error));
+                window.alert(error);
             });
     }
 }

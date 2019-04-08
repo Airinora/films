@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import PageMain from '../page-main/page-main';
 import PageError from '../page-error/page-error';
-import {MAIN_PAGE_ROUTE, FAVOURITE_ROUTE, WATCHED_ROUTE, FILM_ROUTE} from '../../constants/routes';
+import {MAIN_PAGE_ROUTE, FAVOURITE_ROUTE, WATCHED_ROUTE} from '../../constants/routes';
 import Header from '../header/header';
 import Favourite from "../favourite/favourite";
 import Watched from "../watched/watched";
@@ -35,7 +35,7 @@ export default class App extends React.Component {
                         />
                         <Route
                             exact={ true }
-                            path={ FILM_ROUTE }
+                            path='/film/:id'
                             component={ Film }
                         />
                         <Route

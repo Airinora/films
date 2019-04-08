@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
-import {FILM_ROUTE} from "../../constants/routes";
 import {getFilms} from "../../actions/action";
 import Preloader from "../preloader/preloader";
 
@@ -33,7 +32,7 @@ export class Search extends Component {
 
     componentDidMount() {
         const { getFilms } = this.props;
-        getFilms('olga', 1, undefined);
+        getFilms('olga', undefined);
     }
 
     render(cn) {
@@ -57,7 +56,7 @@ export class Search extends Component {
                         variant='primary'
                         className={ cn('button') }
                         type='button'
-                        onClick={ () => getFilms(value, undefined, undefined) }
+                        onClick={ () => getFilms(value, undefined) }
                     >
                         Find film
                     </Button>
@@ -67,17 +66,24 @@ export class Search extends Component {
                     items.map((resultPage) => {
                         const {Year, Title, imdbID} = resultPage;
                         return (
-                            <div className={ cn('film') } key={ imdbID } id={ imdbID }>
+                            <div className={ cn('film') } key={ imdbID }>
                                 <div className={ cn('film-info') }>
                                     <div className={ cn('film-date') }>{Year}</div>
-                                    <NavLink to={ FILM_ROUTE } className={ cn('film-title') }>{Title}</NavLink>
+                                    <NavLink
+                                        id={ imdbID }
+                                        to={ `/film/${imdbID}` }
+                                        className={ cn('film-title') }
+                                    >
+                                        {Title}
+                                    </NavLink>
                                 </div>
                                 <div className={ cn('film-buttons') }>
                                     <Button type='button' className={ cn('film-button') }>Add to Watched</Button>
                                     <Button variant='link' type='button' className={ cn('film-button') }>Add to Favourite</Button>
                                 </div>
                             </div>
-                        )})
+                        )
+                    })
                 }
             </div>
         );

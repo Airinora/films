@@ -1,23 +1,49 @@
 import React, {Component} from 'react';
-import cn from "../../utils/cn";
-import {ButtonBack} from "../button-back/button";
 import './film.pcss'
+/* eslint-disable-next-line import/no-extraneous-dependencies */
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import Preloader from "../preloader/preloader";
+import {getFilmById} from '../../actions/film-action';
+import {ButtonBack} from "../button-back/button";
+import cn from "../../utils/cn";
+
+const mapStateToProps = ({singleFilm: {isLoading, film}}) => ({
+    isLoading,
+    film
+});
 
 @cn('film')
-export default class Film extends Component {
-    render(cn) {
+export class Film extends Component {
+    static propTypes = {
+        isLoading: PropTypes.bool.isRequired,
+        getFilmById: PropTypes.func.isRequired,
+        match: PropTypes.array,
+        film: PropTypes.array
+    };
+
+    componentDidMount() {
+        const { match: {params: {id}}, getFilmById } = this.props;
+        getFilmById(id);
+    }
+
+    render(cn){
+        const {isLoading, film: {Title, Year, Genre, Director, Country, Plot, Poster}} = this.props;
         return (
             <div>
+                <Preloader
+                    isLoading={ isLoading }
+                />
                 <ButtonBack />
                 <div className={ cn() }>
                     <div className={ cn('poster-container') }>
                         <div className={ cn('poster') }>
-                            <img alt='poster' src='' />
+                            <img alt='poster' src={ Poster } />
                         </div>
                     </div>
                     <div className={ cn('content') }>
                         <h2 className={ cn('title') }>
-                            Title
+                            {Title}
                         </h2>
                         <div className={ cn('info-block') }>
                             <div className={ cn('info') }>
@@ -25,7 +51,7 @@ export default class Film extends Component {
                                     Year
                                 </h6>
                                 <span>
-                                    Year
+                                    {Year}
                                 </span>
                             </div>
                             <div className={ cn('info') }>
@@ -33,7 +59,7 @@ export default class Film extends Component {
                                     Country
                                 </h6>
                                 <span>
-                                    Country
+                                    {Country}
                                 </span>
                             </div>
                             <div className={ cn('info') }>
@@ -41,7 +67,7 @@ export default class Film extends Component {
                                     Director
                                 </h6>
                                 <span>
-                                    Director
+                                    {Director}
                                 </span>
                             </div>
                             <div className={ cn('info') }>
@@ -49,12 +75,12 @@ export default class Film extends Component {
                                     Genre
                                 </h6>
                                 <span>
-                                    Genre
+                                    {Genre}
                                 </span>
                             </div>
                         </div>
                         <div className={ cn('plot') }>
-                            plot
+                            {Plot}
                         </div>
                     </div>
                 </div>
@@ -62,3 +88,5 @@ export default class Film extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps, {getFilmById})(Film);
