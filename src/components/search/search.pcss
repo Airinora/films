@@ -17,8 +17,10 @@
 
     &__film {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        margin-bottom: 20px;
+        border-bottom: 1px solid grey;
+        padding: 10px 0;
     }
 
     &__film-date {
@@ -34,12 +36,13 @@
     &__film-info {
         display: flex;
         align-items: baseline;
+        margin-bottom: 10px;
     }
 
     &__film-buttons {
         display: flex;
         align-items: baseline;
-        flex-direction: column;
+        flex-direction: row;
         flex-shrink: 0;
     }
 
@@ -50,11 +53,8 @@
     }
 
     @media (min-width: 576px) {
-        &__form {
-            flex-direction: row;
-        }
-
-        &__film-buttons {
+        &__form,
+        &__film {
             flex-direction: row;
         }
     }

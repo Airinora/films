@@ -45,6 +45,9 @@ export function getFilms(title, page, id) {
         window.fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&page=${page}&i=${id}`)
             .then((response) => {
                 if (!response.ok) {
+                    dispatch(filmsAreLoading(false));
+                    // console.log('111');
+                    // console.log(response.statusText);
                     throw Error(response.statusText);
                 }
                 return response;
@@ -52,6 +55,8 @@ export function getFilms(title, page, id) {
             .then((response) => response.json())
             .then((response) => {
                 if (response.Response === "False") {
+                    // console.log('222');
+                    // console.log(response.Error);
                     throw response.Error;
                 }
                 dispatch(filmsAreLoading(false));
@@ -59,6 +64,8 @@ export function getFilms(title, page, id) {
             })
             .catch((error) => {
                 dispatch(filmsHaveErrored(error));
+                // console.log('333');
+                // console.log(error);
                 dispatch(filmsAreLoading(false));
             });
     }

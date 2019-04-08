@@ -11,17 +11,20 @@ import './search.pcss';
 import Heading from "../heading/heading";
 import {FILM_ROUTE} from "../../constants/routes";
 import {getFilms} from "../../actions/action";
+import Preloader from "../preloader/preloader";
 
-const mapStateToProps = ({films: {items, error}}) => ({
+const mapStateToProps = ({films: {items, error, isLoading}}) => ({
     items,
-    error
+    error,
+    isLoading
 });
 
 @cn('search')
 export class Search extends Component {
     static propTypes = {
         getFilms: PropTypes.func.isRequired,
-        items: PropTypes.array.isRequired
+        items: PropTypes.array.isRequired,
+        isLoading: PropTypes.bool.isRequired
     };
 
     state = {
@@ -34,10 +37,13 @@ export class Search extends Component {
     }
 
     render(cn) {
-        const { items, getFilms } = this.props;
+        const { items, getFilms, isLoading } = this.props;
         const { value } = this.state;
         return (
             <div className={ cn() }>
+                <Preloader
+                    isLoading={ isLoading }
+                />
                 <Form className={ cn('form') }>
                     <FormControl
                         type='text'
