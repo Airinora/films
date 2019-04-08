@@ -34,7 +34,7 @@ export class Search extends Component {
     }
 
     render(cn) {
-        const { items } = this.props;
+        const { items, getFilms } = this.props;
         const { value } = this.state;
         return (
             <div className={ cn() }>
@@ -51,7 +51,7 @@ export class Search extends Component {
                         variant='primary'
                         className={ cn('button') }
                         type='button'
-                        // onClick={ getFilms(value, undefined, undefined) }
+                        onClick={ () => getFilms(value, undefined, undefined) }
                     >
                         Find film
                     </Button>
