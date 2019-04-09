@@ -6,13 +6,16 @@ import cn from '../../utils/cn';
 @cn('heading')
 export default class Heading extends Component {
     static propTypes = {
-        headingValue: PropTypes.string.isRequired
+        headingValue: PropTypes.string.isRequired,
+        headingIsShown: PropTypes.bool.isRequired
     };
 
     render(cn) {
-        const {headingValue} = this.props;
-        return (
-            <h2 className={ cn() }>{headingValue}</h2>
-        );
+        const { headingValue, headingIsShown } = this.props;
+        if (headingIsShown === true) {
+            return (
+                <h2 className={ cn() }>{headingValue}</h2>
+            );
+        } return null
     }
 }

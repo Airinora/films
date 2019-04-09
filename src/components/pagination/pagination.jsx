@@ -4,6 +4,7 @@ import Pagination from "react-bootstrap/Pagination";
 /* eslint-disable-next-line import/no-extraneous-dependencies */
 import PropTypes from "prop-types";
 import cn from '../../utils/cn';
+import './pagination.pcss';
 
 function setItems(maxNumber, activePage) {
     let items = [];
@@ -115,11 +116,12 @@ function setItems(maxNumber, activePage) {
 }
 
 @cn('pagination')
-class PaginationBasic extends Component {
+export default class PaginationBasic extends Component {
     static propTypes = {
         total: PropTypes.number.isRequired,
         activePage: PropTypes.number.isRequired,
-        onChange: PropTypes.func.isRequired
+        onChange: PropTypes.func.isRequired,
+        paginationIsShown: PropTypes.bool.isRequired
     };
 
     state = {
@@ -151,51 +153,52 @@ class PaginationBasic extends Component {
 
     render() {
         const {items} = this.state;
-        const {activePage, total} = this.props;
+        const {activePage, total, paginationIsShown} = this.props;
         const previousPage = activePage - 1;
         const nextPage = activePage + 1;
         const prevDisabled = activePage === 1;
         const nextDisabled = activePage === total;
-        return (
-            <div>
-                <Pagination
-                    active={ activePage }
-                >
-                    <Pagination.Prev
-                        className='prevPage'
-                        onClick={ this.changePageOnClick(previousPage) }
-                        disabled={ prevDisabled }
-                    />
-                    {
-                        items.map((item, i) => {
-                            const {number, isEllipsis} = item;
-                            if (isEllipsis === true) {
+        if (paginationIsShown === true && total > 1) {
+            return (
+                <div>
+                    <Pagination
+                        active={ activePage }
+                    >
+                        <Pagination.Prev
+                            className='prevPage'
+                            onClick={ this.changePageOnClick(previousPage) }
+                            disabled={ prevDisabled }
+                        />
+                        {
+                            items.map((item, i) => {
+                                const {number, isEllipsis} = item;
+                                if (isEllipsis === true) {
+                                    return (
+                                        <Pagination.Ellipsis
+                                            disabled={ true }
+                                            key={ i + 'key' }
+                                        />
+                                    );
+                                }
                                 return (
-                                    <Pagination.Ellipsis
-                                        disabled={ true }
-                                        key={ i + 'key' }
-                                    />
+                                    <Pagination.Item
+                                        key={ number }
+                                        active={ number === activePage }
+                                        onClick={ this.changePageOnClick(number) }
+                                    >
+                                        {number}
+                                    </Pagination.Item>
                                 );
-                            } return (
-                                <Pagination.Item
-                                    key={ number }
-                                    active={ number === activePage }
-                                    onClick={ this.changePageOnClick(number) }
-                                >
-                                    {number}
-                                </Pagination.Item>
-                            );
-                        })
-                    }
-                    <Pagination.Next
-                        className='nextPage'
-                        onClick={ this.changePageOnClick(nextPage) }
-                        disabled={ nextDisabled }
-                    />
-                </Pagination>
-            </div>
-        );
+                            })
+                        }
+                        <Pagination.Next
+                            className='nextPage'
+                            onClick={ this.changePageOnClick(nextPage) }
+                            disabled={ nextDisabled }
+                        />
+                    </Pagination>
+                </div>
+            );
+        } return null
     }
 }
-
-export default PaginationBasic;

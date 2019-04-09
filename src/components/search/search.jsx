@@ -11,11 +11,16 @@ import './search.pcss';
 import Heading from "../heading/heading";
 import {getFilms} from "../../actions/action";
 import Preloader from "../preloader/preloader";
+import PaginationBasic from "../pagination/pagination";
+import { changeActivePage, changeTitle } from "../../actions/filter-action";
 
-const mapStateToProps = ({films: {items, error, isLoading}}) => ({
+const mapStateToProps = ({films: {items, error, isLoading, total}, filter: {title, activePage}}) => ({
     items,
     error,
-    isLoading
+    isLoading,
+    total,
+    title,
+    activePage
 });
 
 @cn('search')
@@ -23,21 +28,42 @@ export class Search extends Component {
     static propTypes = {
         getFilms: PropTypes.func.isRequired,
         items: PropTypes.array.isRequired,
-        isLoading: PropTypes.bool.isRequired
-    };
-
-    state = {
-        value: ''
+        isLoading: PropTypes.bool.isRequired,
+        total: PropTypes.number.isRequired,
+        changeTitle: PropTypes.func.isRequired,
+        changeActivePage: PropTypes.func.isRequired,
+        title: PropTypes.string.isRequired,
+        activePage: PropTypes.number.isRequired
     };
 
     componentDidMount() {
-        const { getFilms } = this.props;
-        getFilms('olga', undefined);
+        const { getFilms, title, activePage } = this.props;
+        if (title !== '') {
+            getFilms(title, activePage);
+        }
     }
 
+    setNewValue = (event) => {
+        const { changeTitle } = this.props;
+        changeTitle(event.target.value);
+    };
+
+    getNewPage = (newPage) => {
+        const { getFilms, title, changeActivePage } = this.props;
+        changeActivePage(newPage);
+        getFilms(title, newPage);
+    };
+
     render(cn) {
-        const { items, getFilms, isLoading } = this.props;
-        const { value } = this.state;
+        const { items, getFilms, isLoading, total, title, activePage } = this.props;
+        const itemsPerPage = 10;
+        let pagesCount = Math.ceil(total/itemsPerPage);
+        let headingIsShown;
+        let paginationIsShown;
+        if (title !== '') {
+            headingIsShown = true;
+            paginationIsShown = true
+        }
         return (
             <div className={ cn() }>
                 <Preloader
@@ -49,19 +75,22 @@ export class Search extends Component {
                         placeholder='Film title'
                         className={ cn('input') }
                         id='searchInput'
-                        value={ value }
-                        onChange={ (event) => {this.setState({value: event.target.value})} }
+                        value={ title }
+                        onChange={ this.setNewValue }
                     />
                     <Button
                         variant='primary'
                         className={ cn('button') }
                         type='button'
-                        onClick={ () => getFilms(value, undefined) }
+                        onClick={ () => getFilms(title, undefined) }
                     >
                         Find film
                     </Button>
                 </Form>
-                <Heading headingValue='Search results' />
+                <Heading
+                    headingValue='Search results'
+                    headingIsShown={ headingIsShown }
+                />
                 {
                     items.map((resultPage) => {
                         const {Year, Title, imdbID} = resultPage;
@@ -85,9 +114,15 @@ export class Search extends Component {
                         )
                     })
                 }
+                <PaginationBasic
+                    total={ pagesCount }
+                    onChange={ this.getNewPage }
+                    activePage={ activePage }
+                    paginationIsShown={ paginationIsShown }
+                />
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, {getFilms})(Search);
+export default connect(mapStateToProps, {getFilms, changeActivePage, changeTitle})(Search);
