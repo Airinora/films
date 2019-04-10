@@ -9,10 +9,11 @@ import PropTypes from "prop-types";
 import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
-import {getFilms} from "../../actions/action";
+import { getFilms } from "../../actions/action";
 import Preloader from "../preloader/preloader";
 import PaginationBasic from "../pagination/pagination";
 import { changeActivePage, changeTitle } from "../../actions/filter-action";
+import { addFilmToWatched } from "../../actions/watched-action";
 
 const mapStateToProps = ({films: {items, error, isLoading, total}, filter: {title, activePage}}) => ({
     items,
@@ -33,7 +34,8 @@ export class Search extends Component {
         changeTitle: PropTypes.func.isRequired,
         changeActivePage: PropTypes.func.isRequired,
         title: PropTypes.string.isRequired,
-        activePage: PropTypes.number.isRequired
+        activePage: PropTypes.number.isRequired,
+        addFilmToWatched: PropTypes.func.isRequired
     };
 
     componentDidMount() {
@@ -41,7 +43,7 @@ export class Search extends Component {
         if (title !== '') {
             getFilms(title, activePage);
         }
-    }
+    };
 
     setNewValue = (event) => {
         const { changeTitle } = this.props;
@@ -54,6 +56,11 @@ export class Search extends Component {
         getFilms(title, newPage);
     };
 
+    toWatched = (item) => () => {
+        const { addFilmToWatched } = this.props;
+        addFilmToWatched(item);
+    };
+
     render(cn) {
         const { items, getFilms, isLoading, total, title, activePage } = this.props;
         const itemsPerPage = 10;
@@ -63,6 +70,9 @@ export class Search extends Component {
         if (title !== '') {
             headingIsShown = true;
             paginationIsShown = true
+        } else {
+            headingIsShown = false;
+            paginationIsShown = false
         }
         return (
             <div className={ cn() }>
@@ -82,7 +92,7 @@ export class Search extends Component {
                         variant='primary'
                         className={ cn('button') }
                         type='button'
-                        onClick={ () => getFilms(title, undefined) }
+                        onClick={ () => getFilms(title, undefined)  }
                     >
                         Find film
                     </Button>
@@ -92,14 +102,13 @@ export class Search extends Component {
                     headingIsShown={ headingIsShown }
                 />
                 {
-                    items.map((resultPage) => {
-                        const {Year, Title, imdbID} = resultPage;
+                    items.map((item) => {
+                        const {Year, Title, imdbID} = item;
                         return (
-                            <div className={ cn('film') } key={ imdbID }>
+                            <div className={ cn('film') } key={ imdbID } id={ imdbID }>
                                 <div className={ cn('film-info') }>
                                     <div className={ cn('film-date') }>{Year}</div>
                                     <NavLink
-                                        id={ imdbID }
                                         to={ `/film/${imdbID}` }
                                         className={ cn('film-title') }
                                     >
@@ -107,8 +116,22 @@ export class Search extends Component {
                                     </NavLink>
                                 </div>
                                 <div className={ cn('film-buttons') }>
-                                    <Button type='button' className={ cn('film-button') }>Add to Watched</Button>
-                                    <Button variant='link' type='button' className={ cn('film-button') }>Add to Favourite</Button>
+                                    <Button
+                                        type='button'
+                                        data-id={ imdbID }
+                                        className={ cn('film-button') }
+                                        onClick={ this.toWatched(item) }
+                                    >
+                                        Add to Watched
+                                    </Button>
+                                    <Button
+                                        variant='link'
+                                        type='button'
+                                        data-id={ imdbID }
+                                        className={ cn('film-button') }
+                                    >
+                                        Add to Favourite
+                                    </Button>
                                 </div>
                             </div>
                         )
@@ -125,4 +148,11 @@ export class Search extends Component {
     }
 }
 
-export default connect(mapStateToProps, {getFilms, changeActivePage, changeTitle})(Search);
+export default connect(mapStateToProps,
+    {
+        getFilms,
+        changeActivePage,
+        changeTitle,
+        addFilmToWatched
+    }
+)(Search);

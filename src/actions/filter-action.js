@@ -12,6 +12,7 @@ export function changeActivePage(activePage) {
 export function changeTitle(value) {
     return {
         type: CHANGE_TITLE,
-        title: value
+        title: value,
+        activePage: 1
     }
 }

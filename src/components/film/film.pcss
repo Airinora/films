@@ -1,6 +1,7 @@
 
 .film {
     display: flex;
+    flex-direction: column;
     margin-top: 20px;
 
     &__poster-container {
@@ -31,5 +32,11 @@
         display: flex;
         margin: 0;
         width: 150px;
+    }
+
+    @media (min-width: 576px) {
+        & {
+            flex-direction: row;
+        }
     }
 }

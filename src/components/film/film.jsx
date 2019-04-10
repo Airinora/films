@@ -18,8 +18,8 @@ export class Film extends Component {
     static propTypes = {
         isLoading: PropTypes.bool.isRequired,
         getFilmById: PropTypes.func.isRequired,
-        match: PropTypes.objectOf(PropTypes.object()).isRequired,
-        film: PropTypes.objectOf(PropTypes.object()).isRequired
+        match: PropTypes.objectOf.isRequired,
+        film: PropTypes.objectOf.isRequired
     };
 
     componentDidMount() {

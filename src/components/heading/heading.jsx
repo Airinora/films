@@ -16,6 +16,10 @@ export default class Heading extends Component {
             return (
                 <h2 className={ cn() }>{headingValue}</h2>
             );
-        } return null
+        } return (
+            <h2 className={ cn() }>
+                The list of films is empty.
+            </h2>
+        );
     }
 }

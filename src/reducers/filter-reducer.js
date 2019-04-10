@@ -11,7 +11,7 @@ export function filter(state = initialState, action) {
             return ({...state, activePage: action.activePage});
 
         case (CHANGE_TITLE):
-            return ({...state, title: action.title});
+            return ({title: action.title, activePage: action.activePage});
 
     }
     return state;

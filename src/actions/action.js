@@ -57,7 +57,11 @@ export function getFilms(title, page) {
                     throw response.Error;
                 }
                 dispatch(filmsAreLoading(false));
-                dispatch(filmsFetchDataSuccess(response.Search, response.totalResults));
+                const searchResults = response.Search.map((items) => {
+                    const { Title, Year, imdbID } = items;
+                    return { Title, Year, imdbID };
+                });
+                dispatch(filmsFetchDataSuccess(searchResults, response.totalResults));
             })
             .catch((error) => {
                 dispatch(filmsAreLoading(false));
