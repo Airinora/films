@@ -1,9 +1,15 @@
-import {CHANGE_ACTIVE_PAGE, CHANGE_TITLE, CHANGE_WATCHED_ACTIVE_PAGE} from "../actions/filter-action";
+import {
+    CHANGE_ACTIVE_PAGE,
+    CHANGE_FAVOURITE_ACTIVE_PAGE,
+    CHANGE_TITLE,
+    CHANGE_WATCHED_ACTIVE_PAGE
+} from "../actions/filter-action";
 
 const initialState = {
     title: '',
     activePage: 1,
-    watchedActivePage: 1
+    watchedActivePage: 1,
+    favouriteActivePage: 1
 };
 
 export function filter(state = initialState, action) {
@@ -16,6 +22,9 @@ export function filter(state = initialState, action) {
 
         case (CHANGE_WATCHED_ACTIVE_PAGE):
             return ({ ...state, watchedActivePage: action.activePage });
+
+        case (CHANGE_FAVOURITE_ACTIVE_PAGE):
+            return ({ ...state, favouriteActivePage: action.activePage });
 
     }
     return state;
