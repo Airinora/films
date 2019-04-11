@@ -17,12 +17,15 @@ class Favourite extends Component {
         const {activePage} = this.state;
         return (
             <div className={ cn() }>
-                <Heading headingValue='Favourite films' />
-                <div />
+                <Heading
+                    headingValue='Favourite films'
+                    headingIsShown={ true }
+                />
                 <PaginationBasic
                     total={ 5 }
                     onChange={ this.handlePageChange }
                     activePage={ activePage }
+                    paginationIsShown={ true }
                 />
             </div>
         );

@@ -5,8 +5,7 @@ const initialState = {
     error: '',
     isLoading: false,
     items: [],
-    total: 0,
-    value: ''
+    total: 0
 };
 
 export function films(state = initialState, action) {
