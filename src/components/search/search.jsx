@@ -14,15 +14,17 @@ import Preloader from "../preloader/preloader";
 import PaginationBasic from "../pagination/pagination";
 import {changeActivePage, changeTitle} from "../../actions/filter-action";
 import {addFilmToWatched} from "../../actions/watched-action";
+import {addFilmToFavourite} from "../../actions/favourite-action";
 
-const mapStateToProps = ({films: {items, error, isLoading, total}, filter: {title, activePage}, watchedFilms: {watched}}) => ({
+const mapStateToProps = ({films: {items, error, isLoading, total}, filter: {title, activePage}, watchedFilms: {watched}, favouriteFilms: {favourite}}) => ({
     items,
     error,
     isLoading,
     total,
     title,
     activePage,
-    watched
+    watched,
+    favourite
 });
 
 @cn('search')
@@ -37,7 +39,10 @@ export class Search extends Component {
         title: PropTypes.string.isRequired,
         activePage: PropTypes.number.isRequired,
         addFilmToWatched: PropTypes.func.isRequired,
-        watched: PropTypes.array.isRequired
+        watched: PropTypes.array.isRequired,
+        addFilmToFavourite: PropTypes.func.isRequired,
+        favourite: PropTypes.array.isRequired
+
     };
 
     componentDidMount() {
@@ -63,9 +68,19 @@ export class Search extends Component {
         addFilmToWatched(item);
     };
 
-    checkId = (id) => {
+    toFavourite = (item) => () => {
+        const { addFilmToFavourite } = this.props;
+        addFilmToFavourite(item);
+    };
+
+    checkWatchedById = (id) => {
         const { watched } = this.props;
         return watched.some(item => item.imdbID === id);
+    };
+
+    checkFavouriteById = (id) => {
+        const { favourite } = this.props;
+        return favourite.some(item => item.imdbID === id);
     };
 
     render(cn) {
@@ -112,8 +127,10 @@ export class Search extends Component {
                 {
                     items.map((item) => {
                         const {Year, Title, imdbID} = item;
-                        const disabled = this.checkId(imdbID);
-                        let watchedButtonValue = (disabled === false) ? 'Add to Watched' : 'In Watched';
+                        const watchedDisabled = this.checkWatchedById(imdbID);
+                        let watchedButtonValue = (watchedDisabled === false) ? 'Add to Watched' : 'In Watched';
+                        const favouriteDisabled = this.checkFavouriteById(imdbID);
+                        let favouriteButtonValue = (favouriteDisabled === false) ? 'Add to Favourite' : 'In Favourite';
                         return (
                             <div className={ cn('film') } key={ imdbID } id={ imdbID }>
                                 <div className={ cn('film-info') }>
@@ -130,7 +147,7 @@ export class Search extends Component {
                                         type='button'
                                         className={ cn('film-button') }
                                         onClick={ this.toWatched(item) }
-                                        disabled={ disabled }
+                                        disabled={ watchedDisabled }
                                     >
                                         {watchedButtonValue}
                                     </Button>
@@ -138,8 +155,10 @@ export class Search extends Component {
                                         variant='link'
                                         type='button'
                                         className={ cn('film-button') }
+                                        onClick={ this.toFavourite(item) }
+                                        disabled={ favouriteDisabled }
                                     >
-                                        Add to Favourite
+                                        {favouriteButtonValue}
                                     </Button>
                                 </div>
                             </div>
@@ -162,6 +181,7 @@ export default connect(mapStateToProps,
         getFilms,
         changeActivePage,
         changeTitle,
-        addFilmToWatched
+        addFilmToWatched,
+        addFilmToFavourite
     }
 )(Search);

@@ -2,7 +2,6 @@ import React from 'react';
 
 import cn from '../../utils/cn';
 import Search from '../search/search';
-import CounterComponent from "../counter/counter-component";
 
 
 
@@ -13,7 +12,6 @@ export default class PageMain extends React.Component {
         return (
             <div className={ cn() }>
                 <Search />
-                <CounterComponent />
             </div>
         );
     }

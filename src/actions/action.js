@@ -1,19 +1,7 @@
-export const CLICK_PLUS = 'CLICK_PLUS';
-export const CLICK_MINUS = 'CLICK_MINUS';
+
 export const FILMS_HAVE_ERRORED = 'FILMS_HAVE_ERRORED';
 export const FILMS_ARE_LOADING = 'FILMS_ARE_LOADING';
 export const FILMS_FETCH_DATA_SUCCESS = 'FILMS_FETCH_DATA_SUCCESS';
-
-export function clickPlus() {
-    return {
-        type: CLICK_PLUS
-    }
-}
-export function clickMinus() {
-    return {
-        type: CLICK_MINUS
-    }
-}
 
 function filmsHaveErrored(message) {
     return {
