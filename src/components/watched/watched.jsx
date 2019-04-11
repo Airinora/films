@@ -10,6 +10,7 @@ import PaginationBasic from "../pagination/pagination";
 import {getFilms} from "../../actions/action";
 import './watched.pcss';
 import {changeWatchedActivePage} from "../../actions/filter-action";
+import {removeFilmFromWatched} from "../../actions/watched-action";
 
 
 const mapStateToProps = ({watchedFilms: {watched}, filter: {watchedActivePage}}) => ({
@@ -22,12 +23,18 @@ class Watched extends Component {
     static propTypes = {
         watched: PropTypes.array.isRequired,
         watchedActivePage: PropTypes.number.isRequired,
-        changeWatchedActivePage: PropTypes.func.isRequired
+        changeWatchedActivePage: PropTypes.func.isRequired,
+        removeFilmFromWatched: PropTypes.func.isRequired
     };
 
     getNewPage = (newPage) => {
         const { changeWatchedActivePage } = this.props;
         changeWatchedActivePage(newPage);
+    };
+
+    fromWatched = (id) => () => {
+        const { removeFilmFromWatched } = this.props;
+        removeFilmFromWatched(id);
     };
 
     render(cn) {
@@ -61,6 +68,7 @@ class Watched extends Component {
                                 <Button
                                     type='button'
                                     className={ cn('film-button') }
+                                    onClick={ this.fromWatched(imdbID) }
                                 >
                                     Remove from Watched
                                 </Button>
@@ -82,6 +90,7 @@ class Watched extends Component {
 export default connect(mapStateToProps,
     {
         getFilms,
-        changeWatchedActivePage
+        changeWatchedActivePage,
+        removeFilmFromWatched
     }
 )(Watched);

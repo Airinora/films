@@ -10,9 +10,9 @@ export function addFilmToWatched(film) {
     }
 }
 
-// function removeFilmFromWatched(id) {
-//     return {
-//         type: REMOVE_FILM_FROM_WATCHED,
-//         id
-//     }
-// }
+export function removeFilmFromWatched(id) {
+    return {
+        type: REMOVE_FILM_FROM_WATCHED,
+        id
+    }
+}

@@ -10,7 +10,7 @@ export function watchedFilms(state = initialState, action) {
             return ({watched: state.watched.concat(action.film)});
 
         case (REMOVE_FILM_FROM_WATCHED):
-            return ({watched: state.watched.filter(item => item.id !== action.id)});
+            return ({watched: state.watched.filter(item => item.imdbID !== action.id)});
 
     }
     return state
