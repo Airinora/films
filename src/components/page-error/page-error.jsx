@@ -3,16 +3,15 @@ import { Link } from 'react-router-dom';
 
 import { MAIN_PAGE_ROUTE } from '../../constants/routes';
 import cn from '../../utils/cn';
+import Heading from "../heading/heading";
 
 @cn('page-error')
 export default class PageError extends React.Component {
     render(cn) {
         return (
             <div className={ cn() }>
-                <h1 className={ cn('header') }>
-                    Такой страницы не существует :(
-                </h1>
-                <Link to={ MAIN_PAGE_ROUTE }>На главную страницу</Link>
+                <Heading headingValue={ 'Oops! This page doesn\'t exist :(' } />
+                <Link to={ MAIN_PAGE_ROUTE }>To the home page</Link>
             </div>
         );
     }

@@ -1,0 +1,29 @@
+.header {
+    margin-bottom: 20px;
+    font-size: 20px;
+
+    &__label {
+        font-size: 25px;
+        color: white;
+        font-weight: bold;
+        margin-right: 30px;
+    }
+
+    &__nav {
+        flex-direction: column;
+    }
+
+    &__nav-link {
+        color: var(--color-white);
+
+        &:hover {
+            color: var(--color-link-hover);
+        }
+    }
+
+    @media (min-width: 576px) {
+        &__nav {
+            flex-direction: row;
+        }
+    }
+}
