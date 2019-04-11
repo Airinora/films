@@ -1,33 +1,87 @@
 import React, {Component} from 'react';
+/* eslint-disable-next-line import/no-extraneous-dependencies */
+import PropTypes from "prop-types";
+import {NavLink} from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import {connect} from "react-redux";
 import cn from "../../utils/cn";
 import Heading from "../heading/heading";
 import PaginationBasic from "../pagination/pagination";
+import {getFilms} from "../../actions/action";
+import './watched.pcss';
+import {changeWatchedActivePage} from "../../actions/filter-action";
+
+
+const mapStateToProps = ({watchedFilms: {watched}, filter: {watchedActivePage}}) => ({
+    watched,
+    watchedActivePage
+});
 
 @cn('watched')
 class Watched extends Component {
-    state = {
-        activePage: 1
+    static propTypes = {
+        watched: PropTypes.array.isRequired,
+        watchedActivePage: PropTypes.number.isRequired,
+        changeWatchedActivePage: PropTypes.func.isRequired
     };
 
-    handlePageChange = (page) => {
-        this.setState({activePage: page});
+    getNewPage = (newPage) => {
+        const { changeWatchedActivePage } = this.props;
+        changeWatchedActivePage(newPage);
     };
 
     render(cn) {
-        const {activePage} = this.state;
+        const {watched, watchedActivePage} = this.props;
+        const {length} = watched;
+        const itemsPerPage = 10;
+        let pagesCount = Math.ceil(length/itemsPerPage);
+        const filmPage = watched.slice(((watchedActivePage - 1) * 10), watchedActivePage * 10);
+        let headingIsShown;
+        headingIsShown = length > 0;
         return (
             <div>
-                <Heading headingValue='Watched films' />
-                <div className={ cn() } />
+                <Heading
+                    headingValue='Watched films'
+                    headingIsShown={ headingIsShown }
+                />
+                {
+                    filmPage.map((item) => {
+                        const {Year, Title, imdbID} = item;
+                        return (
+                            <div className={ cn('film') } key={ imdbID } id={ imdbID }>
+                                <div className={ cn('film-info') }>
+                                    <div className={ cn('film-date') }>{Year}</div>
+                                    <NavLink
+                                        to={ `/film/${imdbID}` }
+                                        className={ cn('film-title') }
+                                    >
+                                        {Title}
+                                    </NavLink>
+                                </div>
+                                <Button
+                                    type='button'
+                                    className={ cn('film-button') }
+                                >
+                                    Remove from Watched
+                                </Button>
+                            </div>
+                        );
+                    })
+                }
                 <PaginationBasic
-                    total={ 30 }
-                    onChange={ this.handlePageChange }
-                    activePage={ activePage }
+                    total={ pagesCount }
+                    onChange={ this.getNewPage }
+                    activePage={ watchedActivePage }
+                    paginationIsShown={ true }
                 />
             </div>
-        );
+        )
     }
 }
 
-
-export default Watched;
+export default connect(mapStateToProps,
+    {
+        getFilms,
+        changeWatchedActivePage
+    }
+)(Watched);

@@ -1,8 +1,9 @@
-import {CHANGE_ACTIVE_PAGE, CHANGE_TITLE} from "../actions/filter-action";
+import {CHANGE_ACTIVE_PAGE, CHANGE_TITLE, CHANGE_WATCHED_ACTIVE_PAGE} from "../actions/filter-action";
 
 const initialState = {
     title: '',
-    activePage: 1
+    activePage: 1,
+    watchedActivePage: 1
 };
 
 export function filter(state = initialState, action) {
@@ -11,7 +12,10 @@ export function filter(state = initialState, action) {
             return ({...state, activePage: action.activePage});
 
         case (CHANGE_TITLE):
-            return ({title: action.title, activePage: action.activePage});
+            return ({...state, title: action.title, activePage: action.activePage});
+
+        case (CHANGE_WATCHED_ACTIVE_PAGE):
+            return ({ ...state, watchedActivePage: action.activePage });
 
     }
     return state;
