@@ -2,26 +2,27 @@ import React, {Component} from 'react';
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/es/FormControl";
 import Button from "react-bootstrap/Button";
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {NavLink} from 'react-router-dom';
+import {connect} from 'react-redux';
 /* eslint-disable-next-line import/no-extraneous-dependencies */
 import PropTypes from "prop-types";
 import cn from "../../utils/cn";
 import './search.pcss';
 import Heading from "../heading/heading";
-import { getFilms } from "../../actions/action";
+import {getFilms} from "../../actions/action";
 import Preloader from "../preloader/preloader";
 import PaginationBasic from "../pagination/pagination";
-import { changeActivePage, changeTitle } from "../../actions/filter-action";
-import { addFilmToWatched } from "../../actions/watched-action";
+import {changeActivePage, changeTitle} from "../../actions/filter-action";
+import {addFilmToWatched} from "../../actions/watched-action";
 
-const mapStateToProps = ({films: {items, error, isLoading, total}, filter: {title, activePage}}) => ({
+const mapStateToProps = ({films: {items, error, isLoading, total}, filter: {title, activePage}, watchedFilms: {watched}}) => ({
     items,
     error,
     isLoading,
     total,
     title,
-    activePage
+    activePage,
+    watched
 });
 
 @cn('search')
@@ -35,7 +36,8 @@ export class Search extends Component {
         changeActivePage: PropTypes.func.isRequired,
         title: PropTypes.string.isRequired,
         activePage: PropTypes.number.isRequired,
-        addFilmToWatched: PropTypes.func.isRequired
+        addFilmToWatched: PropTypes.func.isRequired,
+        watched: PropTypes.array.isRequired
     };
 
     componentDidMount() {
@@ -61,6 +63,11 @@ export class Search extends Component {
         addFilmToWatched(item);
     };
 
+    checkId = (id) => {
+        const { watched } = this.props;
+        return watched.some(item => item.imdbID === id);
+    };
+
     render(cn) {
         const { items, getFilms, isLoading, total, title, activePage } = this.props;
         const itemsPerPage = 10;
@@ -74,6 +81,7 @@ export class Search extends Component {
             headingIsShown = false;
             paginationIsShown = false
         }
+
         return (
             <div className={ cn() }>
                 <Preloader
@@ -104,6 +112,8 @@ export class Search extends Component {
                 {
                     items.map((item) => {
                         const {Year, Title, imdbID} = item;
+                        const disabled = this.checkId(imdbID);
+                        let watchedButtonValue = (disabled === false) ? 'Add to Watched' : 'In Watched';
                         return (
                             <div className={ cn('film') } key={ imdbID } id={ imdbID }>
                                 <div className={ cn('film-info') }>
@@ -118,16 +128,15 @@ export class Search extends Component {
                                 <div className={ cn('film-buttons') }>
                                     <Button
                                         type='button'
-                                        data-id={ imdbID }
                                         className={ cn('film-button') }
                                         onClick={ this.toWatched(item) }
+                                        disabled={ disabled }
                                     >
-                                        Add to Watched
+                                        {watchedButtonValue}
                                     </Button>
                                     <Button
                                         variant='link'
                                         type='button'
-                                        data-id={ imdbID }
                                         className={ cn('film-button') }
                                     >
                                         Add to Favourite
