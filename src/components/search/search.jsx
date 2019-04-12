@@ -89,14 +89,13 @@ export class Search extends Component {
         let pagesCount = Math.ceil(total/itemsPerPage);
         let headingIsShown;
         let paginationIsShown;
-        if (title !== '') {
+        if (items.length > 0) {
             headingIsShown = true;
             paginationIsShown = true
         } else {
             headingIsShown = false;
             paginationIsShown = false
         }
-
         return (
             <div className={ cn() }>
                 <Preloader
